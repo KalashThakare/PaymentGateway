@@ -1,8 +1,9 @@
+
 import { instance } from "../server.js"
 
 export const checkout = async (req,res)=>{
     const options={
-        amount:10000,
+        amount:Number(req.body.amount*100),
         currency:"INR",
     };
     const order =await instance.orders.create(options);
@@ -10,5 +11,10 @@ export const checkout = async (req,res)=>{
     console.log(order);
     res.status(200).json({
         success:'true',
+        order,
     });
+}
+
+export const paymentVerification=()=>{
+    
 }
