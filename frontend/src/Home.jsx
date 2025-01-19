@@ -8,15 +8,18 @@ import axios from "axios";
 const Home = () => {
 
     const checkoutHandler=async(amount)=>{
+
+        const {data:{key}} = await axios.get("http://localhost:4000/api/getkey")
+
        const {data:{order}} = await axios.post("http://localhost:4000/api/checkout",{
         amount
        })
        
        const options = {
-          key: "YOUR_KEY_ID",
+          key,
           amount: order.amount,
           currency: "INR",
-          name: "Acme Corp", 
+          name: "Kalash Thakare", 
           description: "Test Transaction",
           image: "https://example.com/your_logo",
           order_id: order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
@@ -30,14 +33,11 @@ const Home = () => {
               address: "Razorpay Corporate Office"
           },
           theme: {
-              color: "#3399cc"
+              color: "#4BF7F4"
           }
         };
         var rzp1 = new window.Razorpay(options);
-        document.getElementById('rzp-button1').onclick = function(e){
-            rzp1.open();
-            e.preventDefault();
-        }
+        rzp1.open(); 
     }
 
 
@@ -47,7 +47,7 @@ const Home = () => {
     
     <Box>
         <Stack h="100vh"  alignItems="Center" justifyContent="center" direction={["column" ,"row"]}>
-            <Card amount={10000} img="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PDP-Highlight-Surface-Laptop-Go-2-Ice-Blue:VP2-859x540" checkoutHandler={checkoutHandler}/>
+            <Card amount={70000} img="https://cdn-dynmedia-1.microsoft.com/is/image/microsoftcorp/PDP-Highlight-Surface-Laptop-Go-2-Ice-Blue:VP2-859x540" checkoutHandler={checkoutHandler}/>
             <Card amount={10000} img="https://arcticfox.com/cdn/shop/files/RedMousecopy2.png?v=1720679632&width=823" checkoutHandler={checkoutHandler}/>
         </Stack>
     </Box>
