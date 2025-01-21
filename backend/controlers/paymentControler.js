@@ -24,6 +24,18 @@ export const paymentVerification=async(req,res)=>{
 
     const expectedSignature= crypto.createHmac('sha256',process.env.RAZORPAY_SECRET).update(body.toString()).digest('hex');
 
-    console.log(razorpay_signature);
-    console.log(expectedSignature);
-}
+    const isAuthenticated = expectedSignature==razorpay_signature;
+
+    if(isAuthenticated){
+        res.redirect(
+            `http://localhost:3000/paymentsuccess?reference=${razorpay_payment_id}`
+        );
+        
+    }
+    else{
+        res.status(400).json({
+            success:'false',
+        });
+
+    }
+};
